@@ -8,12 +8,16 @@ public class West implements Direction {
     }
 
     @Override
-    public Direction turnLeft() {
-        return new South();
+    public void move(Rover rover) {
+        rover.y -= 1;
     }
     @Override
-    public Direction turnRight() {
-        return new North();
+    public void turnLeft(Rover rover) {
+        rover.facing = new South();
+    }
+    @Override
+    public void turnRight(Rover rover) {
+        rover.facing = new North();
     }
     @Override
     public char getDir() {

@@ -1,10 +1,10 @@
 package rover;
 
 public class Rover {
-    private int x;
-    private int y;
-    private Direction facing;
-    private int fuel;
+    public int x;
+    public int y;
+    public Direction facing;
+    public int fuel;
 
     public Rover() {
         this.x = 0;
@@ -17,8 +17,5 @@ public class Rover {
         this.y = y;
         this.facing = facing;
         this.fuel = fuel;
-    }
-
-    public void setState(int x, int y, Direction facing, int fuel) {
     }
 }

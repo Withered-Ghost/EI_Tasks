@@ -8,12 +8,16 @@ public class East implements Direction {
     }
 
     @Override
-    public Direction turnLeft() {
-        return new North();
+    public void move(Rover rover) {
+        rover.y += 1;
     }
     @Override
-    public Direction turnRight() {
-        return new South();
+    public void turnLeft(Rover rover) {
+        rover.facing = new North();
+    }
+    @Override
+    public void turnRight(Rover rover) {
+        rover.facing = new South();
     }
     @Override
     public char getDir() {
