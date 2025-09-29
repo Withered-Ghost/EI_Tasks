@@ -1,4 +1,6 @@
-package rover;
+package direction;
+
+import rover.Rover;
 
 public class East implements Direction {
     private char dir;
@@ -8,16 +10,22 @@ public class East implements Direction {
     }
 
     @Override
-    public void move(Rover rover) {
+    public int move(Rover rover, int elevationDiff) {
+        if(rover.useFuel(elevationDiff) != 0) {
+            return 1;
+        }
         rover.y += 1;
+        return 0;
     }
     @Override
-    public void turnLeft(Rover rover) {
+    public int turnLeft(Rover rover) {
         rover.facing = new North();
+        return 0;
     }
     @Override
-    public void turnRight(Rover rover) {
+    public int turnRight(Rover rover) {
         rover.facing = new South();
+        return 0;
     }
     @Override
     public char getDir() {

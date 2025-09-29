@@ -1,4 +1,7 @@
 import java.util.*;
+
+import direction.Direction;
+import direction.North;
 import rover.*;
 
 public class Simulator {
