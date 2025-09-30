@@ -1,10 +1,11 @@
 package command;
 
-import rover.Rover;
+import grid.*;
+import rover.*;
 
 public class Move implements Command {
     @Override
-    public int execute(Rover rover, int elevationDiff) {
-        return rover.move(elevationDiff);
+    public int execute(Rover rover, Grid grid) {
+        return rover.move(grid);
     }
 }

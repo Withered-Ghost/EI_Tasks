@@ -1,37 +1,84 @@
 package rover;
 
+import command.*;
 import direction.*;
-import fuel.*;
+import grid.*;
+import java.util.*;
 
 public class Rover {
     private int x;
     private int y;
     private int fuel;
     private Direction facing;
-    private FuelUsage fuelUsage;
 
     public Rover() {
         this.x = 0;
         this.y = 0;
-        this.fuel = 20;
+        this.fuel = 50;
         this.facing = new North();
-        this.fuelUsage = new FlatUsage();
     }
 
-    public Rover(int x, int y, int fuel, Direction facing, FuelUsage fuelUsage) {
+    public Rover(int x, int y, int fuel, Direction facing) {
         this.x = x;
         this.y = y;
         this.fuel = fuel;
         this.facing = facing;
-        this.fuelUsage = fuelUsage;
     }
 
-    public int move(int elevationDiff) {
-        return this.facing.move(this, elevationDiff);
+    public void executeCommands(String cmds, Grid grid) {
+        Scanner sc = new Scanner(System.in);
+
+        for(char c : cmds.toCharArray()) {
+            grid.print(this);
+            System.out.print(this.getStats());
+            System.out.println("Elevation: " + grid.getCell(this.x, this.y).getElevation());
+            sc.nextLine();
+
+            int success;
+            Command cmd;
+
+            switch(c) {
+                case 'M':
+                    cmd = new Move();
+                    break;
+                case 'L':
+                    cmd = new TurnLeft();
+                    break;
+                case 'R':
+                    cmd = new TurnRight();
+                    break;
+                default:
+                    System.out.println("Command not found:" + c);
+                    return;
+            }
+
+            success = cmd.execute(this, grid);
+
+            if(success != 0) {
+                System.out.println("Stopping execution");
+                return;
+            }
+        }
+        System.out.println("All commands executed");
+    }
+
+    public int move(Grid grid) {
+        return this.facing.move(this, grid);
     }
 
     public int useFuel(int elevationDiff) {
-        int fuelCost = this.fuelUsage.calcFuelUsage(elevationDiff);
+        int fuelCost;
+
+        if(elevationDiff > 0) {
+            fuelCost = -1 * elevationDiff;
+        }
+        else if(elevationDiff == 0) {
+            fuelCost = 1;
+        }
+        else {
+            fuelCost = 2 * elevationDiff;
+        }
+
         if(this.fuel - fuelCost < 0) {
             return 1;
         }
@@ -59,9 +106,6 @@ public class Rover {
     public Direction getFacing() {
         return this.facing;
     }
-    public FuelUsage getFuelUsage() {
-        return this.fuelUsage;
-    }
     public void setX(int x) {
         this.x = x;
     }
@@ -70,9 +114,6 @@ public class Rover {
     }
     public void setFacing(Direction facing) {
         this.facing = facing;
-    }
-    public void setFuelUsage(FuelUsage fuelUsage) {
-        this.fuelUsage = fuelUsage;
     }
 
     public String getStats() {

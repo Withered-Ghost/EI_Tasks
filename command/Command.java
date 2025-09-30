@@ -1,7 +1,8 @@
 package command;
 
-import rover.Rover;
+import grid.*;
+import rover.*;
 
 public interface Command {
-    public int execute(Rover rover, int elevationDiff);
+    public int execute(Rover rover, Grid grid);
 }

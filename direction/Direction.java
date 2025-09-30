@@ -1,9 +1,10 @@
 package direction;
 
-import rover.Rover;
+import grid.*;
+import rover.*;
 
 public interface Direction {
-    public int move(Rover rover, int elevationDiff);
+    public int move(Rover rover, Grid grid);
     public int turnLeft(Rover rover);
     public int turnRight(Rover rover);
     public char getDir();
