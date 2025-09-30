@@ -4,11 +4,19 @@ import direction.*;
 import fuel.*;
 
 public class Rover {
-    public int x = 0;
-    public int y = 0;
-    public int fuel = 20;
-    public Direction facing = new North();
-    public FuelUsage fuelUsage = new FlatUsage();
+    private int x;
+    private int y;
+    private int fuel;
+    private Direction facing;
+    private FuelUsage fuelUsage;
+
+    public Rover() {
+        this.x = 0;
+        this.y = 0;
+        this.fuel = 20;
+        this.facing = new North();
+        this.fuelUsage = new FlatUsage();
+    }
 
     public Rover(int x, int y, int fuel, Direction facing, FuelUsage fuelUsage) {
         this.x = x;
@@ -39,7 +47,35 @@ public class Rover {
         return this.facing.turnRight(this);
     }
 
+    public int getX() {
+        return this.x;
+    }
+    public int getY() {
+        return this.y;
+    }
+    public int getFuel() {
+        return this.fuel;
+    }
+    public Direction getFacing() {
+        return this.facing;
+    }
+    public FuelUsage getFuelUsage() {
+        return this.fuelUsage;
+    }
+    public void setX(int x) {
+        this.x = x;
+    }
+    public void setY(int y) {
+        this.y = y;
+    }
+    public void setFacing(Direction facing) {
+        this.facing = facing;
+    }
+    public void setFuelUsage(FuelUsage fuelUsage) {
+        this.fuelUsage = fuelUsage;
+    }
+
     public String getStats() {
-        return "x: " + this.x + "\ny: " + this.y + "\nFuel: " + this.fuel + "\nFacing: " + this.facing.getDir() + "\n";
+        return "(" + this.x + ", " + this.y + ")\nFuel: " + this.fuel + "\nFacing: " + this.facing.getDir() + "\n";
     }
 }

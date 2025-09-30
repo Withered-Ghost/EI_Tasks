@@ -14,17 +14,17 @@ public class East implements Direction {
         if(rover.useFuel(elevationDiff) != 0) {
             return 1;
         }
-        rover.y += 1;
+        rover.setY(rover.getY() + 1);
         return 0;
     }
     @Override
     public int turnLeft(Rover rover) {
-        rover.facing = new North();
+        rover.setFacing(new North());
         return 0;
     }
     @Override
     public int turnRight(Rover rover) {
-        rover.facing = new South();
+        rover.setFacing(new South());
         return 0;
     }
     @Override
