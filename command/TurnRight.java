@@ -1,11 +1,12 @@
 package command;
 
+import customException.*;
 import grid.*;
 import rover.*;
 
 public class TurnRight implements Command {
     @Override
-    public int execute(Rover rover, Grid grid) {
-        return rover.turnRight();
+    public void execute(Rover rover, Grid grid) throws CollisionException, LowFuelException, OutOfBoundsException {
+        rover.turnRight();
     }
 }

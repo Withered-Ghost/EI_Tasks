@@ -1,8 +1,9 @@
 package command;
 
+import customException.*;
 import grid.*;
 import rover.*;
 
 public interface Command {
-    public int execute(Rover rover, Grid grid);
+    public void execute(Rover rover, Grid grid) throws CollisionException, LowFuelException, OutOfBoundsException;
 }

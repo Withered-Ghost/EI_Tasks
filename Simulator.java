@@ -1,3 +1,4 @@
+import customException.*;
 import grid.*;
 import rover.*;
 
@@ -28,6 +29,13 @@ public class Simulator {
         Grid grid = new Grid(10, elevationMap);
         Rover rover = new Rover();
 
-        rover.executeCommands("RMM", grid);
+        try {
+            rover.executeCommands("RMRMMMMLMMMM", grid);
+            System.out.println("All commands executed successfully");
+        }
+        catch (CollisionException | InvalidCommandException | LowFuelException | OutOfBoundsException e) {
+            System.out.println("Stopping execution...");
+            System.out.println(e.getMessage());
+        }
     }
 }

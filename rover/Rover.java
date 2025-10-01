@@ -1,6 +1,7 @@
 package rover;
 
 import command.*;
+import customException.*;
 import direction.*;
 import grid.*;
 import java.util.*;
@@ -25,16 +26,17 @@ public class Rover {
         this.facing = facing;
     }
 
-    public void executeCommands(String cmds, Grid grid) {
+    public void executeCommands(String cmds, Grid grid) throws CollisionException, InvalidCommandException, LowFuelException, OutOfBoundsException {
         Scanner sc = new Scanner(System.in);
 
-        for(char c : cmds.toCharArray()) {
-            grid.print(this);
-            System.out.print(this.getStats());
-            System.out.println("Elevation: " + grid.getCell(this.x, this.y).getElevation());
-            sc.nextLine();
+        grid.print(this);
+        System.out.print(this.getStats());
+        System.out.println("Elevation: " + grid.getCell(this.x, this.y).getElevation());
 
-            int success;
+        for(char c : cmds.toCharArray()) {
+            System.out.println("\nExecuting: " + c);
+            // sc.nextLine();
+
             Command cmd;
 
             switch(c) {
@@ -48,26 +50,33 @@ public class Rover {
                     cmd = new TurnRight();
                     break;
                 default:
-                    System.out.println("Command not found:" + c);
-                    return;
+                    throw new InvalidCommandException("Invalid command: " + c);
             }
 
-            success = cmd.execute(this, grid);
-
-            if(success != 0) {
-                System.out.println("Stopping execution");
-                return;
+            try {
+                cmd.execute(this, grid);
             }
+            catch (CollisionException | LowFuelException | OutOfBoundsException e) {
+                throw e;
+            }
+
+            grid.print(this);
+            System.out.print(this.getStats());
+            System.out.println("Elevation: " + grid.getCell(this.x, this.y).getElevation());
         }
-        System.out.println("All commands executed");
     }
 
-    public int move(Grid grid) {
-        return this.facing.move(this, grid);
+    public void move(Grid grid) throws CollisionException, LowFuelException, OutOfBoundsException {
+        try {
+            this.facing.move(this, grid);
+        }
+        catch (CollisionException | LowFuelException | OutOfBoundsException e) {
+            throw e;
+        }
     }
 
-    public int useFuel(int elevationDiff) {
-        int fuelCost;
+    public void useFuel(int elevationDiff) throws LowFuelException {
+        int fuelCost = 0;
 
         if(elevationDiff > 0) {
             fuelCost = -1 * elevationDiff;
@@ -80,18 +89,17 @@ public class Rover {
         }
 
         if(this.fuel - fuelCost < 0) {
-            return 1;
+            throw new LowFuelException("Insufficient fuel: " + this.fuel + "\nFuel cost: " + fuelCost);
         }
         this.fuel -= fuelCost;
-        return 0;
     }
 
-    public int turnLeft() {
-        return this.facing.turnLeft(this);
+    public void turnLeft() {
+        this.facing.turnLeft(this);
     }
 
-    public int turnRight() {
-        return this.facing.turnRight(this);
+    public void turnRight() {
+        this.facing.turnRight(this);
     }
 
     public int getX() {

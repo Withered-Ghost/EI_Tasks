@@ -1,5 +1,6 @@
 package grid;
 
+import customException.*;
 import rover.*;
 
 public class Grid {
@@ -25,7 +26,13 @@ public class Grid {
         }
     }
 
-    public Cell getCell(int x, int y) {
+    public int getSize() {
+        return this.size;
+    }
+    public Cell getCell(int x, int y) throws OutOfBoundsException {
+        if(x < 0 || x >= this.size || y < 0 || y >= this.size) {
+            throw new OutOfBoundsException("Accessing invalid cell: (" + x + ", " + y + ")");
+        }
         return this.cells[x][y];
     }
     public void setCell(int x, int y, Cell cell) {

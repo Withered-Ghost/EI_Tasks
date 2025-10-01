@@ -1,5 +1,7 @@
 package grid;
 
+import customException.*;
+
 public class Cell {
     private int elevation;
 
@@ -20,7 +22,10 @@ public class Cell {
     public void setElevation(int elevation) {
         this.elevation = elevation;
     }
-    public int getElevationDiff(Cell cell) {
+    public int getElevationDiff(Cell cell) throws CollisionException {
+        if(cell.isObstacle()) {
+            throw new CollisionException("");
+        }
         return this.elevation - cell.elevation;
     }
 

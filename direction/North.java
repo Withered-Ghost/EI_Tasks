@@ -1,5 +1,6 @@
 package direction;
 
+import customException.*;
 import grid.*;
 import rover.*;
 
@@ -11,26 +12,32 @@ public class North implements Direction {
     }
 
     @Override
-    public int move(Rover rover, Grid grid) {
+    public void move(Rover rover, Grid grid) throws CollisionException, LowFuelException, OutOfBoundsException {
         int x = rover.getX();
         int y = rover.getY();
-        int elevationDiff = grid.getCell(x, y).getElevationDiff(grid.getCell(x-1, y));
+        int newX = x - 1;
+        int newY = y;
+        int elevationDiff = 0;
 
-        if(rover.useFuel(elevationDiff) != 0) {
-            return 1;
+        try {
+            elevationDiff = grid.getCell(x, y).getElevationDiff(grid.getCell(newX, newY));
+            rover.useFuel(elevationDiff);
+            rover.setX(newX);
         }
-        rover.setX(x - 1);
-        return 0;
+        catch (CollisionException | LowFuelException | OutOfBoundsException e) {
+            if(e instanceof CollisionException) {
+                throw new CollisionException("Colliding with: (" + newX + ", " + newY + ")");
+            }
+            throw e;
+        }
     }
     @Override
-    public int turnLeft(Rover rover) {
+    public void turnLeft(Rover rover) {
         rover.setFacing(new West());
-        return 0;
     }
     @Override
-    public int turnRight(Rover rover) {
+    public void turnRight(Rover rover) {
         rover.setFacing(new East());
-        return 0;
     }
     @Override
     public char getDir() {
