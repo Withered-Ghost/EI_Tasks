@@ -85,7 +85,7 @@ public class Rover {
             fuelCost = 1;
         }
         else {
-            fuelCost = 2 * elevationDiff;
+            fuelCost = -2 * elevationDiff;
         }
 
         if(this.fuel - fuelCost < 0) {
