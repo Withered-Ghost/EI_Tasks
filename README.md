@@ -2,6 +2,7 @@
 
 ## Directory Tree
 
+```bash
 root/
 ├── EI_Task1/
 │   ├── Behavioral/
@@ -24,3 +25,4 @@ root/
 │
 ├── .gitignore
 └── README.md
+```
